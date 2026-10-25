@@ -19,22 +19,18 @@ admin.initializeApp({
 const app = express()
 
 // ------------------ Middleware ------------------
-app.use(
-  cors({
-    origin: process.env.CLIENT_DOMAIN,
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
-  })
-);
-
-// Handle preflight requests explicitly (Express 5 compatible)
-app.options('/{*path}', cors({
+const corsOptions = {
   origin: process.env.CLIENT_DOMAIN,
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
-}));
+  optionsSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly (Express 5 compatible)
+app.options('/{*path}', cors(corsOptions));
 
 app.use(express.json());
 // ------------------ JWT Verify ------------------
