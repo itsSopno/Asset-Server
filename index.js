@@ -19,8 +19,21 @@ admin.initializeApp({
 const app = express()
 
 // ------------------ Middleware ------------------
+const allowedOrigins = [
+  process.env.CLIENT_DOMAIN,
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+]
+
 const corsOptions = {
-  origin: process.env.CLIENT_DOMAIN,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
