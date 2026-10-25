@@ -24,9 +24,17 @@ app.use(
     origin: process.env.CLIENT_DOMAIN,
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
   })
 );
+
+// Handle preflight requests explicitly (Express 5 compatible)
+app.options('/{*path}', cors({
+  origin: process.env.CLIENT_DOMAIN,
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],
+}));
 
 app.use(express.json());
 // ------------------ JWT Verify ------------------
