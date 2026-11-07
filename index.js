@@ -23,7 +23,7 @@ const allowedOrigins = [
   process.env.CLIENT_DOMAIN,
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://asset-verse-ldbv.vercel.app',
+  'https://asset-studio-pi.vercel.app',
 ]
 
 const corsOptions = {
